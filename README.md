@@ -1,2 +1,13 @@
-# calculator-learn
-Calculator easily accesed by terminal. Project to learn many new fundamentals and concepts of programming
+# Calculator
+
+## How to access
+
+Navigate to terminal directoru
+```shell
+cd .../calculator-learn
+```
+
+Run the file
+```shell
+python app.py "(equation)"
+```
