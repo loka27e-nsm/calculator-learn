@@ -1,6 +1,8 @@
 # Calculator
 _This project is a work in progress and may not function as intended_
 
+_Details on the creation of this work can be found [here](https://github.com/loka27e-nsm/calculator-learn/wiki)_
+
 ## How to access
 
 Navigate to terminal directoru
