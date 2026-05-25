@@ -2,7 +2,14 @@ import math
 import list
 import sys
 
-def add(equations, i, occ=1, currentNum=0) -> float:
+"""
+Inputs:
+equations -> the current equation we have
+i -> the operator, we check the equation for this operator so we know what we're on
+occ -> the number of times this operator has been used. If occ > 1, we skip (occ-1) operators
+currentNum -> the current answer
+"""
+def add(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
         curInd = 0
@@ -12,7 +19,7 @@ def add(equations, i, occ=1, currentNum=0) -> float:
             newEquations=equations[indexOfI+1::]
             curInd = indexOfI + 1
         
-        if currentNum == 0:
+        if currentNum == 0 and firstTime == True:
             firstNum = float(equations[:indexOfI])
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer =   firstNum +  secondNum 
@@ -26,7 +33,7 @@ def add(equations, i, occ=1, currentNum=0) -> float:
         print(f"Invalid Input: Adding Error: {e}\n")
         sys.exit()
 
-def subtract(equations, i, occ=1, currentNum=0) -> float:
+def subtract(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
         curInd = 0
@@ -41,7 +48,7 @@ def subtract(equations, i, occ=1, currentNum=0) -> float:
         except:
             return currentNum
 
-        if currentNum == 0:
+        if currentNum == 0 and firstTime == True:
             firstNum = float(equations[:indexOfI])
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer =   firstNum -  secondNum 
@@ -55,7 +62,7 @@ def subtract(equations, i, occ=1, currentNum=0) -> float:
         print(f"Invalid Subtract Input: Error: {e}\n")
         sys.exit()
 
-def multiply(equations, i, occ=1, currentNum=0) -> float:
+def multiply(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
         curInd = 0
@@ -65,7 +72,7 @@ def multiply(equations, i, occ=1, currentNum=0) -> float:
             newEquations=equations[indexOfI+1::]
             curInd = indexOfI + 1
         
-        if currentNum == 0:
+        if currentNum == 0 and firstTime == True:
             firstNum = float(equations[:indexOfI])
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer = firstNum * secondNum
@@ -79,7 +86,7 @@ def multiply(equations, i, occ=1, currentNum=0) -> float:
         print(f"Invalid Multiplying Input: Error: {e}\n")
         sys.exit()
 
-def divide(equations, i, occ=1, currentNum=0) -> float:
+def divide(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
         curInd = 0
@@ -89,7 +96,7 @@ def divide(equations, i, occ=1, currentNum=0) -> float:
             newEquations=equations[indexOfI+1::]
             curInd = indexOfI + 1
         
-        if currentNum == 0:
+        if currentNum == 0 and firstTime == True:
             firstNum = float(equations[:indexOfI])
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer =   firstNum /  secondNum 

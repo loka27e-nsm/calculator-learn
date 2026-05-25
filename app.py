@@ -15,6 +15,7 @@ if str(equation[0]).isnumeric() == False:
     equation = "0"+equation # ensures adding a symbol at the front doesn't mess it up like a negative number
 
 operation_list = []
+firstTime = True
 answer = 0
 addCtr = 0
 subCtr = 0
@@ -27,24 +28,31 @@ for x in range(len(equation)):
         if equation[x] != "." or equation[x] != "-x":
             n=float(equation[x])
     except:
-        operation_list.append(equation[x])
+        # Ensure decimal points not counted as operator
+        if equation [x] != ".":
+            operation_list.append(equation[x])
+print(f"{operation_list}\n")
 
 for i in operation_list:
     if i == "+":
         addCtr += 1
-        currentAnswer = calculator.add(equation, i, addCtr, answer)
+        currentAnswer = calculator.add(equation, i, addCtr, answer, firstTime)
+        firstTime = False
         answer = currentAnswer
     if i == "-":
         subCtr += 1
-        currentAnswer = calculator.subtract(equation, i, subCtr, answer)
+        currentAnswer = calculator.subtract(equation, i, subCtr, answer, firstTime)
+        firstTime = False
         answer = currentAnswer
     if i == "*":
         multCtr += 1
-        currentAnswer = calculator.multiply(equation, i, multCtr, answer)
+        currentAnswer = calculator.multiply(equation, i, multCtr, answer, firstTime)
+        firstTime = False
         answer = currentAnswer
     if i == "/":
         divCtr += 1
-        currentAnswer = calculator.divide(equation, i, divCtr, answer)
+        currentAnswer = calculator.divide(equation, i, divCtr, answer, firstTime)
+        firstTime = False
         answer = currentAnswer
 
 try:
