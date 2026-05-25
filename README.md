@@ -5,7 +5,7 @@ _Details on the creation of this work can be found [here](https://github.com/lok
 
 ## How to access
 
-Navigate to terminal directoru
+Navigate to terminal directory
 ```shell
 cd .../calculator-learn
 ```
