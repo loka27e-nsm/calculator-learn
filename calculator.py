@@ -7,7 +7,8 @@ Inputs:
 equations -> the current equation we have
 i -> the operator, we check the equation for this operator so we know what we're on
 occ -> the number of times this operator has been used. If occ > 1, we skip (occ-1) operators
-currentNum -> the current answer
+currentNum -> the current answer which is used to help with operations
+firstTime -> whether its the first time-- used to ensure we know when to not use current answer
 """
 def add(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
     try:
@@ -33,6 +34,14 @@ def add(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
         print(f"Invalid Input: Adding Error: {e}\n")
         sys.exit()
 
+"""
+Inputs:
+equations -> the current equation we have
+i -> the operator, we check the equation for this operator so we know what we're on
+occ -> the number of times this operator has been used. If occ > 1, we skip (occ-1) operators
+currentNum -> the current answer which is used to help with operations
+firstTime -> whether its the first time-- used to ensure we know when to not use current answer
+"""
 def subtract(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
@@ -62,6 +71,14 @@ def subtract(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
         print(f"Invalid Subtract Input: Error: {e}\n")
         sys.exit()
 
+"""
+Inputs:
+equations -> the current equation we have
+i -> the operator, we check the equation for this operator so we know what we're on
+occ -> the number of times this operator has been used. If occ > 1, we skip (occ-1) operators
+currentNum -> the current answer which is used to help with operations
+firstTime -> whether its the first time-- used to ensure we know when to not use current answer
+"""
 def multiply(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
@@ -86,6 +103,14 @@ def multiply(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
         print(f"Invalid Multiplying Input: Error: {e}\n")
         sys.exit()
 
+"""
+Inputs:
+equations -> the current equation we have
+i -> the operator, we check the equation for this operator so we know what we're on
+occ -> the number of times this operator has been used. If occ > 1, we skip (occ-1) operators
+currentNum -> the current answer which is used to help with operations
+firstTime -> whether its the first time-- used to ensure we know when to not use current answer
+"""
 def divide(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
