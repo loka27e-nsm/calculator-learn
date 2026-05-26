@@ -10,19 +10,20 @@ occ -> the number of times this operator has been used. If occ > 1, we skip (occ
 currentNum -> the current answer which is used to help with operations
 firstTime -> whether its the first time-- used to ensure we know when to not use current answer
 """
-def add(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
+def add(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
-        curInd = 0
+        curInd = 0 # the index of cutoff. Allows us to keep track of where each operator is
 
         for g in range(occ):
-            indexOfI = newEquations.index(i) + curInd
-            newEquations=equations[indexOfI+1::]
-            curInd = indexOfI + 1
+            indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
+            newEquations=equations[indexOfI+1::] # The remaining equation after the operator
+            curInd = indexOfI + 1 # the starting index of the new equation
         
+        # First time
         if currentNum == 0 and firstTime == True:
-            firstNum = float(equations[:indexOfI])
-            secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
+            firstNum = float(equations[:indexOfI]) 
+            secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)]) 
             answer =   firstNum +  secondNum 
         else:
             firstNum = currentNum
@@ -42,15 +43,15 @@ occ -> the number of times this operator has been used. If occ > 1, we skip (occ
 currentNum -> the current answer which is used to help with operations
 firstTime -> whether its the first time-- used to ensure we know when to not use current answer
 """
-def subtract(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
+def subtract(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
         curInd = 0
 
         for g in range(occ):
-            indexOfI = newEquations.index(i) + curInd
-            newEquations=equations[indexOfI+1::]
-            curInd = indexOfI + 1
+            indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
+            newEquations=equations[indexOfI+1::] # The remaining equation after the operator
+            curInd = indexOfI + 1 # the starting index of the new equation
         
         try:
             n = float(equations[indexOfI-1])
@@ -79,15 +80,15 @@ occ -> the number of times this operator has been used. If occ > 1, we skip (occ
 currentNum -> the current answer which is used to help with operations
 firstTime -> whether its the first time-- used to ensure we know when to not use current answer
 """
-def multiply(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
+def multiply(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
         curInd = 0
 
         for g in range(occ):
-            indexOfI = newEquations.index(i) + curInd
-            newEquations=equations[indexOfI+1::]
-            curInd = indexOfI + 1
+            indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
+            newEquations=equations[indexOfI+1::] # The remaining equation after the operator
+            curInd = indexOfI + 1 # the starting index of the new equation
         
         if currentNum == 0 and firstTime == True:
             firstNum = float(equations[:indexOfI])
@@ -111,15 +112,15 @@ occ -> the number of times this operator has been used. If occ > 1, we skip (occ
 currentNum -> the current answer which is used to help with operations
 firstTime -> whether its the first time-- used to ensure we know when to not use current answer
 """
-def divide(equations, i, occ=1, currentNum=0, firstTime=False) -> float:
+def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
     try:
         newEquations = equations
         curInd = 0
 
         for g in range(occ):
-            indexOfI = newEquations.index(i) + curInd
-            newEquations=equations[indexOfI+1::]
-            curInd = indexOfI + 1
+            indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
+            newEquations=equations[indexOfI+1::] # The remaining equation after the operator
+            curInd = indexOfI + 1 # the starting index of the new equation
         
         if currentNum == 0 and firstTime == True:
             firstNum = float(equations[:indexOfI])

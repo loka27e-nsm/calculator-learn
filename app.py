@@ -17,7 +17,8 @@ if str(equation[0]).isnumeric() == False:
 operation_list = []
 firstTime = True
 answer = 0
-addCtr = 0
+# How ever many times we've done each operator
+addCtr = 0 
 subCtr = 0
 multCtr = 0
 divCtr = 0
@@ -34,21 +35,25 @@ for x in range(len(equation)):
 print(f"{operation_list}\n")
 
 for i in operation_list:
+    # Addition
     if i == "+":
         addCtr += 1
         currentAnswer = calculator.add(equation, i, addCtr, answer, firstTime)
-        firstTime = False
+        firstTime = False # let the function know we've already done a calculation
         answer = currentAnswer
+    # Subtraction
     if i == "-":
         subCtr += 1
         currentAnswer = calculator.subtract(equation, i, subCtr, answer, firstTime)
         firstTime = False
         answer = currentAnswer
+    # Multiplication
     if i == "*":
         multCtr += 1
         currentAnswer = calculator.multiply(equation, i, multCtr, answer, firstTime)
         firstTime = False
         answer = currentAnswer
+    # Division
     if i == "/":
         divCtr += 1
         currentAnswer = calculator.divide(equation, i, divCtr, answer, firstTime)
@@ -56,6 +61,7 @@ for i in operation_list:
         answer = currentAnswer
 
 try:
+    # It's integer if float equals integer
     if int(answer) == float(answer):
         answer = int(answer)
         print(f"{answer:,}")
@@ -63,11 +69,6 @@ try:
         print(f"{answer:,.2f}")
 except:
     print(f"{answer:,.2f}")
-    
-"""
-WHEN GET BACK
-    FIX SUBTRACTION. 6*-2 SHOULD WORK
-"""
 
 
 
