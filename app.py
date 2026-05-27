@@ -2,6 +2,19 @@ import math
 import calculator
 import sys
 
+"""
+Inputs:
+    operatorList -> list of remaining operators in equation
+    lvlList -> list of operators to watch out for
+Output:
+    true/false -> whether we have an operator that remains that takes precedence over current operator 
+"""
+def test(operatorList:list, lvlList:list):
+    for index in range(len(operatorList)):
+        if operatorList[index] in lvlList:
+            return False
+    return True
+
 equation = "".join(sys.argv[1:])
 
 # help navigate
@@ -16,6 +29,7 @@ if str(equation[0]).isnumeric() == False:
 
 operation_list = []
 firstTime = True
+justMultDiv = False
 answer = 0
 # How ever many times we've done each operator
 addCtr = 0 
@@ -32,33 +46,66 @@ for x in range(len(equation)):
         # Ensure decimal points not counted as operator
         if equation [x] != ".":
             operation_list.append(equation[x])
-print(f"{operation_list}\n")
+#print(f"{operation_list}\n")
+newOperatorList = operation_list.copy() # previous: operation_list + []
 
-for i in operation_list:
-    # Addition
-    if i == "+":
-        addCtr += 1
-        currentAnswer = calculator.add(equation, i, addCtr, answer, firstTime)
-        firstTime = False # let the function know we've already done a calculation
-        answer = currentAnswer
-    # Subtraction
-    if i == "-":
-        subCtr += 1
-        currentAnswer = calculator.subtract(equation, i, subCtr, answer, firstTime)
-        firstTime = False
-        answer = currentAnswer
-    # Multiplication
-    if i == "*":
-        multCtr += 1
-        currentAnswer = calculator.multiply(equation, i, multCtr, answer, firstTime)
-        firstTime = False
-        answer = currentAnswer
-    # Division
-    if i == "/":
-        divCtr += 1
-        currentAnswer = calculator.divide(equation, i, divCtr, answer, firstTime)
-        firstTime = False
-        answer = currentAnswer
+# List of operators by precendence
+firstLvl = ["(",")"]
+secondLvl = firstLvl + ["^"]
+thirdLvl = secondLvl + ["*","/"]
+fourthLvl = thirdLvl + ["+","-"]
+
+while len(newOperatorList) > 0:
+    operation_list = list(newOperatorList)
+    for i in operation_list:
+        # Addition
+        if i == "+" and test(newOperatorList,thirdLvl) == True:
+            addCtr += 1
+            currentAnswer = calculator.add(equation, i, addCtr, answer, firstTime)
+            firstTime = False # let the function know we've already done a calculation
+            justMultDiv = False
+            newOperatorList.remove(i)
+            answer = currentAnswer
+        # Subtraction
+        elif i == "-"and test(newOperatorList,thirdLvl) == True:
+            subCtr += 1
+            currentAnswer = calculator.subtract(equation, i, subCtr, answer, firstTime)
+            firstTime = False
+            justMultDiv = False
+            newOperatorList.remove(i)
+            answer = currentAnswer
+        # Multiplication
+        elif i == "*"and test(newOperatorList,secondLvl) == True:
+            multCtr += 1
+            currentAnswer = calculator.multiply(equation, i, multCtr, answer, firstTime)
+            justMultDiv = True
+            newOperatorList.remove(i)
+            try:
+                if ("+" in newOperatorList or "-" in newOperatorList) == False or (operation_list.index("+") < operation_list.index(i) or operation_list.index("-") < operation_list.index(i)) == False:
+                    firstTime = False
+                    answer = float(currentAnswer[0])
+                else:
+                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+            except:
+                firstTime = False
+                answer = float(currentAnswer[0])
+        # Division
+        elif i == "/"and test(newOperatorList,secondLvl) == True:
+            divCtr += 1
+            currentAnswer = calculator.divide(equation, i, divCtr, answer, firstTime)
+            justMultDiv = True
+            newOperatorList.remove(i)
+            try:
+                if ("+" in newOperatorList or "-" in newOperatorList) == False or (operation_list.index("+") < operation_list.index(i) or operation_list.index("-") < operation_list.index(i)) == False:
+                    firstTime = False
+                    answer = float(currentAnswer[0])
+                else:
+                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+            except:
+                firstTime = False
+                answer = float(currentAnswer[0])
 
 try:
     # It's integer if float equals integer

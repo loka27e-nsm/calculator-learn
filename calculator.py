@@ -80,7 +80,7 @@ occ -> the number of times this operator has been used. If occ > 1, we skip (occ
 currentNum -> the current answer which is used to help with operations
 firstTime -> whether its the first time-- used to ensure we know when to not use current answer
 """
-def multiply(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
+def multiply(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list:
     try:
         newEquations = equations
         curInd = 0
@@ -91,7 +91,10 @@ def multiply(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> floa
             curInd = indexOfI + 1 # the starting index of the new equation
         
         if currentNum == 0 and firstTime == True:
-            firstNum = float(equations[:indexOfI])
+            try:
+                firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI,occ)+1:indexOfI])
+            except:
+                firstNum = float(equations[:indexOfI])
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer = firstNum * secondNum
         else:
@@ -99,7 +102,7 @@ def multiply(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> floa
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer = firstNum *  secondNum
 
-        return answer
+        return [answer,list.nonNumericIndexBegin(equations, indexOfI,occ)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
     except Exception as e:
         print(f"Invalid Multiplying Input: Error: {e}\n")
         sys.exit()
@@ -112,7 +115,7 @@ occ -> the number of times this operator has been used. If occ > 1, we skip (occ
 currentNum -> the current answer which is used to help with operations
 firstTime -> whether its the first time-- used to ensure we know when to not use current answer
 """
-def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
+def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list:
     try:
         newEquations = equations
         curInd = 0
@@ -123,7 +126,10 @@ def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
             curInd = indexOfI + 1 # the starting index of the new equation
         
         if currentNum == 0 and firstTime == True:
-            firstNum = float(equations[:indexOfI])
+            try:
+                firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI,occ)+1:indexOfI])
+            except:
+                firstNum = float(equations[:indexOfI])
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer =   firstNum /  secondNum 
         else:
@@ -131,7 +137,7 @@ def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer = firstNum /  secondNum
 
-        return answer
+        return [answer,list.nonNumericIndexBegin(equations, indexOfI,occ)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
     except ZeroDivisionError:
         print(f"Invalid Input: Error: cannot divide by zero\n")
         sys.exit()

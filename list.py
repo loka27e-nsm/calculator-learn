@@ -13,11 +13,11 @@ def nonNumericIndexEnd(list:str,startIndex:int) -> int:
             return x
     return len(list)
 
-"""def nonNumericIndexBegin(list,startIndex) -> int:
-    for x in range(startIndex, 0,-1):
+def nonNumericIndexBegin(list,startIndex,occ:int) -> int:
+    for x in range(startIndex-1, 0,-1):
         try:
             if list[x] != ".":
                 n=float(list[x])
         except:
             return x
-    return len(list)"""
+    return len(list)
