@@ -79,17 +79,26 @@ while len(newOperatorList) > 0:
             multCtr += 1
             currentAnswer = calculator.multiply(equation, i, multCtr, answer, firstTime)
             justMultDiv = True
-            newOperatorList.remove(i)
             try:
-                if ("+" in newOperatorList or "-" in newOperatorList) == False or (operation_list.index("+") < operation_list.index(i) or operation_list.index("-") < operation_list.index(i)) == False:
+                if ("+" in newOperatorList) == False or (newOperatorList.index("+") < newOperatorList.index(i)) == False:
                     firstTime = False
                     answer = float(currentAnswer[0])
                 else:
                     replaceString = equation[currentAnswer[1]:currentAnswer[2]]
                     equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             except:
-                firstTime = False
-                answer = float(currentAnswer[0])
+                try:
+                    if ("-" in newOperatorList) == False or (newOperatorList.index("-") < newOperatorList.index(i)) == False:
+                        firstTime = False
+                        answer = float(currentAnswer[0])
+                    else:
+                        replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                        equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                except:
+                    firstTime = False
+                    answer = float(currentAnswer[0])
+            newOperatorList.remove(i)
+
         # Division
         elif i == "/"and test(newOperatorList,secondLvl) == True:
             divCtr += 1

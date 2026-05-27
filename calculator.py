@@ -89,20 +89,16 @@ def multiply(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list
             indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
             newEquations=equations[indexOfI+1::] # The remaining equation after the operator
             curInd = indexOfI + 1 # the starting index of the new equation
-        
-        if currentNum == 0 and firstTime == True:
-            try:
-                firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI,occ)+1:indexOfI])
-            except:
-                firstNum = float(equations[:indexOfI])
-            secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
-            answer = firstNum * secondNum
-        else:
-            firstNum = currentNum
-            secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
-            answer = firstNum *  secondNum
+        try:
+            firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI)+1:indexOfI])
+        except:
+            firstNum = float(equations[:indexOfI])
+        secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
+        answer = firstNum * secondNum
 
-        return [answer,list.nonNumericIndexBegin(equations, indexOfI,occ)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
+        if list.nonNumericIndexBegin(equations, indexOfI+1) >= len(equations):
+            return [answer,0,list.nonNumericIndexEnd(equations, indexOfI+1)]
+        return [answer,list.nonNumericIndexBegin(equations, indexOfI)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
     except Exception as e:
         print(f"Invalid Multiplying Input: Error: {e}\n")
         sys.exit()
@@ -127,7 +123,7 @@ def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list:
         
         if currentNum == 0 and firstTime == True:
             try:
-                firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI,occ)+1:indexOfI])
+                firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI)+1:indexOfI])
             except:
                 firstNum = float(equations[:indexOfI])
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
@@ -137,7 +133,7 @@ def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list:
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer = firstNum /  secondNum
 
-        return [answer,list.nonNumericIndexBegin(equations, indexOfI,occ)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
+        return [answer,list.nonNumericIndexBegin(equations, indexOfI)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
     except ZeroDivisionError:
         print(f"Invalid Input: Error: cannot divide by zero\n")
         sys.exit()

@@ -13,7 +13,7 @@ def nonNumericIndexEnd(list:str,startIndex:int) -> int:
             return x
     return len(list)
 
-def nonNumericIndexBegin(list,startIndex,occ:int) -> int:
+def nonNumericIndexBegin(list,startIndex) -> int:
     for x in range(startIndex-1, 0,-1):
         try:
             if list[x] != ".":
