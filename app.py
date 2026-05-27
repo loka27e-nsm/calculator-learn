@@ -19,7 +19,7 @@ equation = "".join(sys.argv[1:])
 
 # help navigate
 if equation == "help":
-    print("Functions:\n1. Add (1+1)\n2. Subtract (2-1)\n3. Multiply (4*3)\n4. Divide (4/2)\nEquations evaluated on a left to right basis")
+    print("Functions:\n1. Add (1+1)\n2. Subtract (2-1)\n3. Multiply (4*3)\n4. Divide (4/2)\nEquations evaluated on a PEMDAS basis")
     sys.exit()
 
 # Makes it easier to read
@@ -76,11 +76,15 @@ while len(newOperatorList) > 0:
             answer = currentAnswer
         # Multiplication
         elif i == "*"and test(newOperatorList,secondLvl) == True:
+            if ("*" in equation) == False:
+                while "*" in newOperatorList:
+                    newOperatorList.remove("*")
+                continue
             multCtr += 1
             currentAnswer = calculator.multiply(equation, i, multCtr, answer, firstTime)
             justMultDiv = True
             try:
-                if ("+" in newOperatorList) == False or (newOperatorList.index("+") < newOperatorList.index(i)) == False:
+                if ("+" in newOperatorList) == False:
                     firstTime = False
                     answer = float(currentAnswer[0])
                 else:
@@ -88,7 +92,7 @@ while len(newOperatorList) > 0:
                     equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             except:
                 try:
-                    if ("-" in newOperatorList) == False or (newOperatorList.index("-") < newOperatorList.index(i)) == False:
+                    if ("-" in newOperatorList) == False:
                         firstTime = False
                         answer = float(currentAnswer[0])
                     else:
@@ -101,20 +105,32 @@ while len(newOperatorList) > 0:
 
         # Division
         elif i == "/"and test(newOperatorList,secondLvl) == True:
+            if ("/" in equation) == False:
+                while "/" in newOperatorList:
+                    newOperatorList.remove("/")
+                continue
             divCtr += 1
             currentAnswer = calculator.divide(equation, i, divCtr, answer, firstTime)
             justMultDiv = True
-            newOperatorList.remove(i)
             try:
-                if ("+" in newOperatorList or "-" in newOperatorList) == False or (operation_list.index("+") < operation_list.index(i) or operation_list.index("-") < operation_list.index(i)) == False:
+                if ("+" in newOperatorList) == False:
                     firstTime = False
                     answer = float(currentAnswer[0])
                 else:
                     replaceString = equation[currentAnswer[1]:currentAnswer[2]]
                     equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             except:
-                firstTime = False
-                answer = float(currentAnswer[0])
+                try:
+                    if ("-" in newOperatorList) == False:
+                        firstTime = False
+                        answer = float(currentAnswer[0])
+                    else:
+                        replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                        equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                except:
+                    firstTime = False
+                    answer = float(currentAnswer[0])
+            newOperatorList.remove(i)
 
 try:
     # It's integer if float equals integer

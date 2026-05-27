@@ -85,10 +85,9 @@ def multiply(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list
         newEquations = equations
         curInd = 0
 
-        for g in range(occ):
-            indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
-            newEquations=equations[indexOfI+1::] # The remaining equation after the operator
-            curInd = indexOfI + 1 # the starting index of the new equation
+        indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
+        newEquations=equations[indexOfI+1::] # The remaining equation after the operator
+        curInd = indexOfI + 1 # the starting index of the new equation
         try:
             firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI)+1:indexOfI])
         except:
@@ -96,7 +95,7 @@ def multiply(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list
         secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
         answer = firstNum * secondNum
 
-        if list.nonNumericIndexBegin(equations, indexOfI+1) >= len(equations):
+        if list.nonNumericIndexBegin(equations, indexOfI) >= len(equations):
             return [answer,0,list.nonNumericIndexEnd(equations, indexOfI+1)]
         return [answer,list.nonNumericIndexBegin(equations, indexOfI)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
     except Exception as e:
@@ -116,23 +115,19 @@ def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list:
         newEquations = equations
         curInd = 0
 
-        for g in range(occ):
-            indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
-            newEquations=equations[indexOfI+1::] # The remaining equation after the operator
-            curInd = indexOfI + 1 # the starting index of the new equation
+        indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
+        newEquations=equations[indexOfI+1::] # The remaining equation after the operator
+        curInd = indexOfI + 1 # the starting index of the new equation
         
-        if currentNum == 0 and firstTime == True:
-            try:
-                firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI)+1:indexOfI])
-            except:
-                firstNum = float(equations[:indexOfI])
-            secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
-            answer =   firstNum /  secondNum 
-        else:
-            firstNum = currentNum
-            secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
-            answer = firstNum /  secondNum
+        try:
+            firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI)+1:indexOfI])
+        except:
+            firstNum = float(equations[:indexOfI])
+        secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
+        answer = firstNum / secondNum
 
+        if list.nonNumericIndexBegin(equations, indexOfI) >= len(equations):
+            return [answer,0,list.nonNumericIndexEnd(equations, indexOfI+1)]
         return [answer,list.nonNumericIndexBegin(equations, indexOfI)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
     except ZeroDivisionError:
         print(f"Invalid Input: Error: cannot divide by zero\n")
