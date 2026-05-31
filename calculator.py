@@ -136,3 +136,34 @@ def divide(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list:
         print(f"Invalid Input: Dividing Error: {e}\n")
         sys.exit()
 
+"""
+Inputs:
+equations -> the current equation we have
+i -> the operator, we check the equation for this operator so we know what we're on
+occ -> the number of times this operator has been used. If occ > 1, we skip (occ-1) operators
+currentNum -> the current answer which is used to help with operations
+firstTime -> whether its the first time-- used to ensure we know when to not use current answer
+"""
+def exponent(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> list:
+    try:
+        newEquations = equations
+        curInd = 0
+
+        indexOfI = newEquations.index(i) + curInd # Get the next index of the operator
+        newEquations=equations[indexOfI+1::] # The remaining equation after the operator
+        curInd = indexOfI + 1 # the starting index of the new equation
+        try:
+            firstNum = float(equations[list.nonNumericIndexBegin(equations, indexOfI)+1:indexOfI])
+        except:
+            firstNum = float(equations[:indexOfI])
+        secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
+        answer = firstNum ** secondNum
+
+        if list.nonNumericIndexBegin(equations, indexOfI) >= len(equations):
+            return [answer,0,list.nonNumericIndexEnd(equations, indexOfI+1)]
+        return [answer,list.nonNumericIndexBegin(equations, indexOfI)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
+    except Exception as e:
+        print(f"Invalid Multiplying Input: Error: {e}\n")
+        sys.exit()
+
+

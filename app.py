@@ -132,6 +132,35 @@ while len(newOperatorList) > 0:
                     answer = float(currentAnswer[0])
             newOperatorList.remove(i)
 
+        # Exponent
+        elif i == "^"and test(newOperatorList,firstLvl) == True:
+            if ("^" in equation) == False:
+                while "^" in newOperatorList:
+                    newOperatorList.remove("^")
+                continue
+            multCtr += 1
+            currentAnswer = calculator.exponent(equation, i, multCtr, answer, firstTime)
+            justMultDiv = True
+            try:
+                if ("*" in newOperatorList) == False:
+                    firstTime = False
+                    answer = float(currentAnswer[0])
+                else:
+                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+            except:
+                try:
+                    if ("/" in newOperatorList) == False:
+                        firstTime = False
+                        answer = float(currentAnswer[0])
+                    else:
+                        replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                        equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                except:
+                    firstTime = False
+                    answer = float(currentAnswer[0])
+            newOperatorList.remove(i)
+
 try:
     # It's integer if float equals integer
     if int(answer) == float(answer):
