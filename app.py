@@ -36,6 +36,7 @@ addCtr = 0
 subCtr = 0
 multCtr = 0
 divCtr = 0
+expCtr = 0
 
 # Get list of operators
 for x in range(len(equation)):
@@ -84,20 +85,12 @@ while len(newOperatorList) > 0:
             currentAnswer = calculator.multiply(equation, i, multCtr, answer, firstTime)
             justMultDiv = True
             try:
-                if ("+" in newOperatorList) == False:
-                    firstTime = False
-                    answer = float(currentAnswer[0])
-                else:
-                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
-                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             except:
                 try:
-                    if ("-" in newOperatorList) == False:
-                        firstTime = False
-                        answer = float(currentAnswer[0])
-                    else:
-                        replaceString = equation[currentAnswer[1]:currentAnswer[2]]
-                        equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
                 except:
                     firstTime = False
                     answer = float(currentAnswer[0])
@@ -138,8 +131,8 @@ while len(newOperatorList) > 0:
                 while "^" in newOperatorList:
                     newOperatorList.remove("^")
                 continue
-            multCtr += 1
-            currentAnswer = calculator.exponent(equation, i, multCtr, answer, firstTime)
+            expCtr += 1
+            currentAnswer = calculator.exponent(equation, i, expCtr, answer, firstTime)
             justMultDiv = True
             try:
                 if ("*" in newOperatorList) == False:
@@ -163,12 +156,22 @@ while len(newOperatorList) > 0:
 
 try:
     # It's integer if float equals integer
+    try:
+        equation = float(equation)
+        if int(equation) == float(equation):
+            print(f"{int(equation):,}")
+            sys.exit()
+        else:
+            print(f"{equation:,.2f}")
+            sys.exit()
+    except ValueError:
+        pass
     if int(answer) == float(answer):
         answer = int(answer)
         print(f"{answer:,}")
     else:
         print(f"{answer:,.2f}")
-except:
+except ValueError:
     print(f"{answer:,.2f}")
 
 
