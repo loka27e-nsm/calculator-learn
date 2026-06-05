@@ -59,6 +59,12 @@ fourthLvl = thirdLvl + ["+","-"]
 while len(newOperatorList) > 0:
     operation_list = list(newOperatorList)
     for i in operation_list:
+        try:
+            hi = float(equation)
+            newOperatorList = []
+            break
+        except:
+            pass
         # Addition
         if i == "+" and test(newOperatorList,thirdLvl) == True:
             addCtr += 1
