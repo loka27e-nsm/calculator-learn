@@ -37,6 +37,7 @@ subCtr = 0
 multCtr = 0
 divCtr = 0
 expCtr = 0
+newEq = str(equation)
 
 # Get list of operators
 for x in range(len(equation)):
@@ -45,10 +46,19 @@ for x in range(len(equation)):
             n=float(equation[x])
     except:
         # Ensure decimal points not counted as operator
-        if equation [x] != ".":
-            operation_list.append(equation[x])
+        if equation[x] == "-" and equation[x+1] == "-":
+            if equation[x-1].isnumeric() == True:
+                newEq = equation[:x:] + "+" + equation[x+2::]
+            else:
+                newEq = equation[:x:] + equation[x+2::]
+        try:
+            if equation [x] != ".":
+                operation_list.append(equation[x])
+        except:
+            pass
 #print(f"{operation_list}\n")
 newOperatorList = operation_list.copy() # previous: operation_list + []
+equation = str(newEq)
 
 # List of operators by precendence
 firstLvl = ["(",")"]
