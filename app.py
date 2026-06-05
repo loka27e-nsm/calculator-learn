@@ -69,6 +69,13 @@ while len(newOperatorList) > 0:
             answer = currentAnswer
         # Subtraction
         elif i == "-"and test(newOperatorList,thirdLvl) == True:
+            if "-" not in equation:
+                while "-" in newOperatorList:
+                    newOperatorList.remove("-")
+                while "-" in operation_list:
+                    operation_list.remove("-")
+                continue
+
             subCtr += 1
             currentAnswer = calculator.subtract(equation, i, subCtr, answer, firstTime)
             firstTime = False
@@ -106,20 +113,12 @@ while len(newOperatorList) > 0:
             currentAnswer = calculator.divide(equation, i, divCtr, answer, firstTime)
             justMultDiv = True
             try:
-                if ("+" in newOperatorList) == False:
-                    firstTime = False
-                    answer = float(currentAnswer[0])
-                else:
-                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
-                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             except:
                 try:
-                    if ("-" in newOperatorList) == False:
-                        firstTime = False
-                        answer = float(currentAnswer[0])
-                    else:
-                        replaceString = equation[currentAnswer[1]:currentAnswer[2]]
-                        equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
                 except:
                     firstTime = False
                     answer = float(currentAnswer[0])
@@ -135,20 +134,12 @@ while len(newOperatorList) > 0:
             currentAnswer = calculator.exponent(equation, i, expCtr, answer, firstTime)
             justMultDiv = True
             try:
-                if ("*" in newOperatorList) == False:
-                    firstTime = False
-                    answer = float(currentAnswer[0])
-                else:
-                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
-                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             except:
                 try:
-                    if ("/" in newOperatorList) == False:
-                        firstTime = False
-                        answer = float(currentAnswer[0])
-                    else:
-                        replaceString = equation[currentAnswer[1]:currentAnswer[2]]
-                        equation = equation.replace(str(replaceString),str(currentAnswer[0]))
+                    replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                    equation = equation.replace(str(replaceString),str(currentAnswer[0]))
                 except:
                     firstTime = False
                     answer = float(currentAnswer[0])
