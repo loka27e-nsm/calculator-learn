@@ -25,7 +25,8 @@ if equation == "help":
 # Makes it easier to read
 equation = equation.replace(" ","")
 if str(equation[0]).isnumeric() == False:
-    equation = "0"+equation # ensures adding a symbol at the front doesn't mess it up like a negative number
+    if str(equation[0]) != "(":
+        equation = "0"+equation # ensures adding a symbol at the front doesn't mess it up like a negative number
 
 operation_list = []
 firstTime = True
@@ -93,12 +94,19 @@ while len(newOperatorList) > 0:
             pass
         # Addition
         if i == "+" and test(newOperatorList,thirdLvl) == True:
+            if "+" not in equation:
+                while "+" in newOperatorList:
+                    newOperatorList.remove("+")
+                while "+" in operation_list:
+                    operation_list.remove("+")
+                continue
             addCtr += 1
             currentAnswer = calculator.add(equation, i, addCtr, answer, firstTime)
             firstTime = False # let the function know we've already done a calculation
             justMultDiv = False
+            replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+            equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             newOperatorList.remove(i)
-            answer = currentAnswer
         # Subtraction
         elif i == "-"and test(newOperatorList,thirdLvl) == True:
             if "-" not in equation:
@@ -112,8 +120,9 @@ while len(newOperatorList) > 0:
             currentAnswer = calculator.subtract(equation, i, subCtr, answer, firstTime)
             firstTime = False
             justMultDiv = False
+            replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+            equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             newOperatorList.remove(i)
-            answer = currentAnswer
         # Multiplication
         elif i == "*"and test(newOperatorList,secondLvl) == True:
             if ("*" in equation) == False:
@@ -176,6 +185,44 @@ while len(newOperatorList) > 0:
                     firstTime = False
                     answer = float(currentAnswer[0])
             newOperatorList.remove(i)
+
+        # Parentheses
+        elif i == "(":
+            if ("(" in equation) == False:
+                while "(" in newOperatorList:
+                    newOperatorList.remove("(")
+                continue
+            if (")" in equation) == False:
+                while ")" in newOperatorList:
+                    newOperatorList.remove(")")
+                continue
+
+            leftIndex = equation.index("(")
+            leftOperatorIndex = operation_list.index("(")
+            try:
+                rightIndex = equation.index(")")
+                rightOperatorIndex = operation_list.index(")")
+            except:
+                sys.exit("Unclosed Parentheses")
+            # equation in parentheses
+            insideEquation = equation[leftIndex+1:rightIndex]
+            insideOperators = operation_list[leftOperatorIndex+1:rightOperatorIndex]
+            newInsideOperators = list(insideOperators)
+
+            for g in insideOperators:
+                insideAddCtr = 0
+                # Addition
+                if g == "+" and test(newInsideOperators,thirdLvl) == True:
+                    insideAddCtr += 1
+                    currentAnswer = calculator.add(insideEquation, g, insideAddCtr, answer, firstTime, True)
+                    newInsideOperators.pop(insideOperators.index(g))
+                    newOperatorList.pop(leftOperatorIndex+insideOperators.index(g)+1) # Remove from operator list
+                    replaceString = insideEquation[currentAnswer[1]:currentAnswer[2]] # String to be replaced
+                    insideEquation = insideEquation.replace(str(replaceString), str(currentAnswer[0]))
+            newOperatorList.remove("(")
+            newOperatorList.remove(")")
+            replaceString = equation[leftIndex:rightIndex+1]
+            equation = equation.replace(str(replaceString), str(insideEquation))
 
 try:
     # It's integer if float equals integer

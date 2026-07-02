@@ -10,7 +10,7 @@ occ -> the number of times this operator has been used. If occ > 1, we skip (occ
 currentNum -> the current answer which is used to help with operations
 firstTime -> whether its the first time-- used to ensure we know when to not use current answer
 """
-def add(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
+def add(equations:str, i:str, occ=1, currentNum=0, firstTime=False, inParentheses=False) -> float:
     try:
         newEquations = equations
         curInd = 0 # the index of cutoff. Allows us to keep track of where each operator is
@@ -30,7 +30,10 @@ def add(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> float:
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer = firstNum +  secondNum
 
-        return answer
+ 
+        if list.nonNumericIndexBegin(equations, indexOfI) >= len(equations):
+            return [answer,0,list.nonNumericIndexEnd(equations, indexOfI+1)]
+        return [answer,list.nonNumericIndexBegin(equations, indexOfI)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
     except Exception as e:
         print(f"Invalid Input: Adding Error: {e}\n")
         sys.exit()
@@ -67,7 +70,9 @@ def subtract(equations:str, i:str, occ=1, currentNum=0, firstTime=False) -> floa
             secondNum = float(equations[indexOfI+1:list.nonNumericIndexEnd(equations, indexOfI+1)])
             answer = firstNum -  secondNum
 
-        return answer
+        if list.nonNumericIndexBegin(equations, indexOfI) >= len(equations):
+            return [answer,0,list.nonNumericIndexEnd(equations, indexOfI+1)]
+        return [answer,list.nonNumericIndexBegin(equations, indexOfI)+1,list.nonNumericIndexEnd(equations, indexOfI+1)]
     except Exception as e:
         print(f"Invalid Subtract Input: Error: {e}\n")
         sys.exit()
