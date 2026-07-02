@@ -22,4 +22,4 @@ If this returns 2, you may move on to the next step
 python app.py equation
 ```
 * Replace equation with your desired equation such as 2*3 or more.
-* Replace equation with help to see what has currently been implemented
+* Replace equation with help to see what has currently been implemented or view [this](https://github.com/loka27e-nsm/calculator-learn/wiki/Development-Versions)_
