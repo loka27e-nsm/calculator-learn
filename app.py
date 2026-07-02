@@ -37,7 +37,19 @@ subCtr = 0
 multCtr = 0
 divCtr = 0
 expCtr = 0
+subCheck = 0 # How ever many times we skip subtraction
+ifAddfromSubtract = 0 # Whether double subtraction results in adding
 newEq = str(equation)
+
+for x in range(len(equation)):
+    if equation[x] == "-" and equation[x+1] == "-":
+            subCheck += 1
+            if equation[x-1].isnumeric() == True:
+                newEq = equation[:x:] + "+" + equation[x+2::]
+                ifAddfromSubtract += 1
+            else:
+                newEq = equation[:x:] + equation[x+2::]
+equation = newEq
 
 # Get list of operators
 for x in range(len(equation)):
@@ -47,16 +59,20 @@ for x in range(len(equation)):
     except:
         # Ensure decimal points not counted as operator
         if equation[x] == "-" and equation[x+1] == "-":
+            subCheck += 1
             if equation[x-1].isnumeric() == True:
                 newEq = equation[:x:] + "+" + equation[x+2::]
+                ifAddfromSubtract += 1
             else:
                 newEq = equation[:x:] + equation[x+2::]
+            equation = newEq
         try:
             if equation [x] != ".":
                 operation_list.append(equation[x])
         except:
             pass
 #print(f"{operation_list}\n")
+
 newOperatorList = operation_list.copy() # previous: operation_list + []
 equation = str(newEq)
 
@@ -150,7 +166,7 @@ while len(newOperatorList) > 0:
             currentAnswer = calculator.exponent(equation, i, expCtr, answer, firstTime)
             justMultDiv = True
             try:
-                replaceString = equation[currentAnswer[1]:currentAnswer[2]]
+                replaceString = equation[currentAnswer[1]:currentAnswer[2]] # Equation to replace
                 equation = equation.replace(str(replaceString),str(currentAnswer[0]))
             except:
                 try:
